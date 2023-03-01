@@ -4,11 +4,17 @@ import pandas as pd
 from flask import Flask
 from flask import request
 from flask import jsonify
+from fastapi import FastAPI
 import tensorflow as tf
 from sklearn.model_selection import train_test_split
 
-app = Flask(__name__)
+appFlask = Flask(__name__)
 
+app = FastAPI()
+
+@app.get("/")
+async def root():
+	return {"message":"hello"}
 
 def predict(object):
     
@@ -33,7 +39,8 @@ def predict(object):
     return prediction[0, 0].astype(float)
 
 
-@app.route('/air/predict', methods=['POST'])
+
+@appFlask.route('/air/predict', methods=['POST'])
 def req_predict():
     print("nekaj")
     object_json = request.json
@@ -42,4 +49,4 @@ def req_predict():
     return jsonify({'prediction': prediction})
 
 if __name__ == '__main__':
-    app.run(host ='0.0.0.0', port = 5000)
+    appFlask.run(host ='0.0.0.0', port = 5000)
