@@ -33,8 +33,9 @@ def predict(object):
     return prediction[0, 0].astype(float)
 
 
-@app.route('/predict', methods=['POST'])
+@app.route('/air/predict', methods=['POST'])
 def req_predict():
+    print("nekaj")
     object_json = request.json
     object = pd.DataFrame.from_dict(object_json)
     prediction = predict(object)
