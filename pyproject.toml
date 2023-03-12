@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "iis-nal1"
+version = "1.0.0"
+description = ""
+authors = ["Lara Rantuša"]
+readme = "README.md"
+packages = [{include = "iis_nal1"}]
+
+[tool.poetry.dependencies]
+python = ">=3.7.3"
+numpy = "^1.24.2"
+pandas = "^1.5.3"
+sklearn = "^0.0.post1"
+scikit-learn = "^1.2.1"
+flask = "^2.2.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
