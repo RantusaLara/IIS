@@ -3,4 +3,4 @@ flask
 pytest
 fastapi
 httpx
-sklearn
+scikit-learn
