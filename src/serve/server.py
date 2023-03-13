@@ -11,14 +11,14 @@ app = Flask(__name__)
 
 def reorder(df):
     new_data = pd.DataFrame()
+    new_data['pm2.5'] = df['pm2.5']
     new_data['nadm_visina'] = df['nadm_visina']
+    new_data['o3'] = df['o3']
     new_data['benzen'] = df['benzen']
     new_data['ge_sirina'] = df['ge_sirina']
-    new_data['ge_dolzina'] = df['ge_dolzina']
-    new_data['pm2.5'] = df['pm2.5']
-    new_data['o3'] = df['o3']
     new_data['co'] = df['co']
     new_data['no2'] = df['no2']
+    new_data['ge_dolzina'] = df['ge_dolzina']
     new_data['so2'] = df['so2']
     new_data['CE Ljubljanska'] = df['CE Ljubljanska']
     new_data['CE bolnica'] = df['CE bolnica']
@@ -41,6 +41,7 @@ def reorder(df):
     new_data['Rečica v I.Bistrici'] = df['Rečica v I.Bistrici']
     new_data['Trbovlje'] = df['Trbovlje']
     new_data['Zagorje'] = df['Zagorje']
+    new_data['promet'] = df['promet']
     return new_data
 
 

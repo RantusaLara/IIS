@@ -35,7 +35,8 @@ def test_main():
         "Ptuj": 0,
         "Rečica v I.Bistrici": 0,
         "Trbovlje": 0,
-        "Zagorje": 0
+        "Zagorje": 0,
+	    "promet": 90.500
 	
 	}
 	
