@@ -4,3 +4,4 @@ pytest
 fastapi
 httpx
 scikit-learn
+flask_cors
