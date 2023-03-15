@@ -1,10 +1,4 @@
-from fastapi.testclient import TestClient
-from src.serve.server import app
-
-#client = TestClient(app)
-
-def test_main():
-	request_body ={
+request_body ={
 
 		"nadm_visina": 299,
         "benzen": 1,
@@ -22,7 +16,7 @@ def test_main():
         "Koper": 0,
         "Kranj": 0,
         "Krvavec": 0,
-        "LJ Bežigrad": 1,
+        "LJ Bežigrad": 0,
         "LJ Celovška": 0,
         "LJ Vič": 0,
         "MB Titova": 0,
@@ -39,8 +33,16 @@ def test_main():
 	    "promet": 90.500
 	
 	}
-	
-	
-	#response = client.post('/air/predict/', json = request_body)
-	response = app.test_client().post('air/predict/', json = request_body)
-	assert response.status_code == 200
+
+#request_body["benzen"] = 3
+#print(request_body.get("benzen"))
+
+variable = "Zagorje"
+
+if variable == "MB Titova":
+    request_body["nadm_visina"] = 200
+    request_body["ge_sirina"] = 15.458585
+    request_body["ge_dolzina"] = 14.585858
+    request_body["MB Titova"]
+
+print(request_body)

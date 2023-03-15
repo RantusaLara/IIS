@@ -5,9 +5,10 @@ from flask import request
 import json
 from flask import jsonify
 import os
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
-
+cors = CORS(app)
 
 def reorder(df):
     new_data = pd.DataFrame()
@@ -46,6 +47,7 @@ def reorder(df):
 
 
 @app.route('/air/predict/', methods=['POST'])
+@cross_origin()
 def predict():
     object_json = request.json
     df = pd.json_normalize(object_json)
