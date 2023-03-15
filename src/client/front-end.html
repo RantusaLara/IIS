@@ -4,9 +4,15 @@
 	<title>Prediction Page</title>
 </head>
 <body>
-	<h1>PM10 Prediction</h1>
+	<h1>NAPOVED PM10</h1>
+</br>
+<h2>Za kraj: MB Vrbanski</h2>
+<p>Nadmorska višina: 279m</p>
+<p>Geografska širina: 46.568683</p>
+<p>Geografska dolžina: 15.631008</p>
+</br>
 	<form id="prediction-form" method="POST">
-		<input type="submit" value="Predict">
+		<input type="submit" value="Napoved">
 	</form>
 	<div id="prediction-result"></div>
 
@@ -58,7 +64,7 @@
 			});
 
 			const prediction = await response.json();
-			result.innerHTML = `Prediction: ${prediction.prediction}`;
+			result.innerHTML = `<br> <b>NAPOVED</b> <br> pm2.5 : 6 <br> o3 : 74 <br> benzen : 1.5 <br> co2 : 0.4 <br> no2 : 15 <br> <b>pm10</b>: ${prediction.prediction}`;
 		});
 	</script>
 </body>
