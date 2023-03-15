@@ -59,12 +59,12 @@
           "Rečica v I.Bistrici": 0,
           "Trbovlje": 0,
           "Zagorje": 0,
-          "promet": 110.500
+          "promet": 10.500
 				})
 			});
 
 			const prediction = await response.json();
-			result.innerHTML = `<br> <b>NAPOVED</b> <br> pm2.5 : 6 <br> o3 : 74 <br> benzen : 1.5 <br> co2 : 0.4 <br> no2 : 15 <br> <b>pm10</b>: ${prediction.prediction}`;
+			result.innerHTML = `<br> <b>NAPOVED</b> <br> pm2.5 : 6 <br> o3 : 74 <br> benzen : 1.5 <br> co2 : 0.4 <br> no2 : 15 <br> število prometnih vozil : 10500 <br> <b>pm10</b>: ${prediction.prediction}`;
 		});
 	</script>
 </body>
