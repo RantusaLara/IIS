@@ -1,6 +1,11 @@
 import pandas as pd
 import json
 import os
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from data.preprocess_air_data import preprocess_air_data
 
 
 def refactor_values(data):
@@ -39,9 +44,7 @@ def process_data(src, dist):
 
     df = df.reset_index(drop=True)    
 
-    df_filtered = df.loc[df['merilno_mesto'] == 'MB Vrbanski'].copy()
-    df_filtered['datum_od'] = pd.to_datetime(df_filtered['datum_od'], format='%Y-%m-%d %H')
-    df_air = df_filtered[['datum_od', 'pm10']].copy()
+    df_air = preprocess_air_data(df)
 
     print('Saving processed air data...')
     df_air.to_csv(dist, index=False)

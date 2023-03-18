@@ -1,6 +1,11 @@
 import pandas as pd
 import json
 import os
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from data.preprocess_weather_data import preprocess_weather_data
 
 
 def refactor_values(data):
@@ -21,9 +26,8 @@ def process_data(src, dist):
 
 
     df_weather = pd.DataFrame.from_dict(json.loads(json.dumps(raw["hourly"])))
-    df_weather['time'] = pd.to_datetime(df_weather['time'], format='%Y-%m-%d %H')
 
-   
+    df_weather = preprocess_weather_data(df_weather)   
 
     print('Saving processed weather data...')
     df_weather.to_csv(dist, index=False)
