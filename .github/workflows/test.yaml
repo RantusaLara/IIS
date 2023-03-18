@@ -37,7 +37,9 @@ jobs:
         run: python src/data/fetch_data.py
 
       - name: Install dvc
-        run: pip install dvc
+        run: |
+          pip install dvc
+          pip install fsspec==2022.7.1
 
       - name: Setup Dagshub
         run: |
@@ -80,7 +82,9 @@ jobs:
         run: python src/data/preprocess_air_data.py
 
       - name: Install dvc
-        run: pip install dvc
+        run: |
+          pip install dvc
+          pip install fsspec==2022.7.1
 
       - name: Setup Dagshub
         run: |
@@ -124,7 +128,9 @@ jobs:
         run: python src/data/fetch_weather_data.py
 
       - name: Install dvc
-        run: pip install dvc
+        run: |
+          pip install dvc
+          pip install fsspec==2022.7.1
 
       - name: Setup Dagshub
         run: |
@@ -167,7 +173,9 @@ jobs:
         run: python src/data/preprocess_weather_data.py
 
       - name: Install dvc
-        run: pip install dvc
+        run: |
+          pip install dvc
+          pip install fsspec==2022.7.1
 
       - name: Setup Dagshub
         run: |
@@ -210,7 +218,9 @@ jobs:
         run: python src/data/merge_processed_data.py
 
       - name: Install dvc
-        run: pip install dvc
+        run: |
+          pip install dvc
+          pip install fsspec==2022.7.1
 
       - name: Setup Dagshub
         run: |
