@@ -28,7 +28,7 @@ def reorder(df):
 @app.route('/air/predict/', methods=['POST'])
 @cross_origin()
 def predict():
-    object_json = request.json
+    #object_json = request.json
 
     object_json = get_forecast()
     print(object_json)

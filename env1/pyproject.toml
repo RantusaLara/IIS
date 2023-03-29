@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "iis-nal1"
+name = "iis"
 version = "1.0.0"
 description = ""
 authors = ["Lara Rantuša"]
@@ -7,18 +7,13 @@ readme = "README.md"
 packages = [{include = "iis_nal1"}]
 
 [tool.poetry.dependencies]
-python = ">=3.8"
-numpy = "^1.23.5"
+python = ">=3.9"
+numpy = "^1.24.2"
 pandas = "^1.5.3"
 sklearn = "^0.0.post1"
 scikit-learn = "^1.2.1"
 flask = "^2.2.3"
-great-expectations = "^0.16.3"
-evidently = "^0.2.7"
 
-
-[tool.poetry.group.dev.dependencies]
-black = "^23.3.0"
 
 [build-system]
 requires = ["poetry-core"]

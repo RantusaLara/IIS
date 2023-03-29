@@ -1,0 +1,12 @@
+md5: 404cf2661ebb76d11888816a89604c69
+frozen: true
+deps:
+- path: data/processed
+  repo:
+    url: https://github.com/RantusaLara/IIS.git/
+    rev_lock: 81671bc6ecd8ebae32fec182d2e5959c9887957d
+outs:
+- md5: b1d2fab569ea5f83c72082b7c53b2890.dir
+  size: 38134593
+  nfiles: 12
+  path: processed

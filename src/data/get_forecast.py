@@ -12,7 +12,12 @@ def get_forecast():
 
     save_file = open("data/raw/forecast", "w")  
     json.dump(data_json_forecast, save_file)  
-    save_file.close()  
+    save_file.close() 
+
+    #Za great_expectations
+    #save_file = open("data/raw/forecast", "w")  
+    #json.dump(data_json_forecast, save_file)  
+    #save_file.close()  
 
     load_file = open('data/raw/forecast')
     dataJsonWeatherForecast = json.load(load_file)
