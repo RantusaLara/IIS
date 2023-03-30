@@ -18,6 +18,7 @@ MLFLOW_TRACKING_PASSWORD="9b05a59dad52b69cbcbd1e1028c9a92b75e10ef5"
 os.environ['MLFLOW_TRACKING_URI']="https://dagshub.com/RantusaLara/IIS.mlflow" 
 os.environ['MLFLOW_TRACKING_USERNAME']="RantusaLara" 
 os.environ['MLFLOW_TRACKING_PASSWORD']="9b05a59dad52b69cbcbd1e1028c9a92b75e10ef5" 
+
 #mlflow.set_experiment("my_experiment") 
 mlflow.autolog(exclusive=False)
 
