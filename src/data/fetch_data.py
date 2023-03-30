@@ -57,9 +57,17 @@ if __name__ == '__main__':
 
     root_dir = os.path.abspath(os.path.join(
         os.path.dirname(__file__), '../..'))
+    
 
     src = os.path.join(root_dir, 'data', 'raw', 'air')
     dist = os.path.join(root_dir, 'data', 'processed', 'processed_air')
+
+    if not os.path.exists(dist):
+        os.makedirs(dist)
+
+    # print(root_dir)
+    # print(src)
+    # print(dist)
 
     #src = os.path.join(root_dir, 'data', 'raw', 'data.json')
     #dist = os.path.join(root_dir, 'data', 'processed', 'data.csv')
