@@ -9,4 +9,4 @@ outs:
 - md5: b1d2fab569ea5f83c72082b7c53b2890.dir
   size: 38134593
   nfiles: 12
-  path: processed
+  path: data/processed
