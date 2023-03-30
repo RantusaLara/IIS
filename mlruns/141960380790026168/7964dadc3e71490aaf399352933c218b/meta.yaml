@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/lara.rantusa/FERI/MAG/IIS/Nal1/mlruns/141960380790026168/7964dadc3e71490aaf399352933c218b/artifacts
+end_time: 1680191406790
+entry_point_name: ''
+experiment_id: '141960380790026168'
+lifecycle_stage: active
+run_id: 7964dadc3e71490aaf399352933c218b
+run_name: aged-roo-830
+run_uuid: 7964dadc3e71490aaf399352933c218b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1680191396744
+status: 3
+tags: []
+user_id: lara.rantusa
