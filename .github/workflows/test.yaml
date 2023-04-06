@@ -32,6 +32,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
+      - name: list everything
+        run: ls -alh
       - name: Fetch air data
         run: python src/data/fetch_data.py
 
