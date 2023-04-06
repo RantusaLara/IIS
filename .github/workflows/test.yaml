@@ -34,8 +34,7 @@ jobs:
           pip install -r requirements.txt
       - name: list everything
         run: ls -alh
-      - name: Fetch air data
-        run: python src/data/fetch_data.py
+      
 
       - name: Install dvc
         run: |
@@ -46,10 +45,17 @@ jobs:
           dvc remote modify origin --local auth basic
           dvc remote modify origin --local user ${{ secrets.DAGSHUB_USERNAME }}
           dvc remote modify origin --local password ${{ secrets.DAGSHUB_PASSWORD }}
+          dvc pull
+      - name: Fetch air data
+        run: python src/data/fetch_data.py
+
       - name: Commit changes
         run: |
           dvc commit --force
           dvc push -r origin
+          git add data.dvc
+          git commit -m "update air_data"
+          git push
   preprocess_air_data:
 
     needs: fetch_air_data
