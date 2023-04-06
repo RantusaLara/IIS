@@ -53,6 +53,10 @@ jobs:
           dvc commit --force
           dvc push -r origin
           git add data.dvc
+
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+
           git commit -m "update air_data"
           git push
   preprocess_air_data:
