@@ -2,6 +2,10 @@ import pandas as pd
 import json
 from urllib.request import urlopen
 from datetime import datetime, timedelta
+import os
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
 def get_forecast():
     url = "https://api.open-meteo.com/v1/forecast?latitude=46.5686&longitude=15.631&hourly=temperature_2m,relativehumidity_2m,windspeed_10m"
@@ -10,7 +14,13 @@ def get_forecast():
 
     json_object_forecast = json.dumps(data_json_forecast)
 
-    save_file = open("data/raw/forecast", "w")  
+    root_dir = os.path.abspath(os.path.join(
+        os.path.dirname(__file__), '../..'))
+    
+
+    src = os.path.join(root_dir, 'src', 'data', 'raw', 'forecast')
+
+    save_file = open(src, "w")  
     json.dump(data_json_forecast, save_file)  
     save_file.close() 
 
