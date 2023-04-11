@@ -164,7 +164,6 @@ jobs:
 
       - name: Pull data
         run: |
-          dvc remote list
           dvc remove data/raw/weather
           git pull
           dvc pull
