@@ -92,10 +92,6 @@ jobs:
           dvc remote modify origin --local user ${{ secrets.DAGSHUB_USERNAME }}
           dvc remote modify origin --local password ${{ secrets.DAGSHUB_PASSWORD }}
 
-      - name: Pull data
-        run:    
-          dvc pull
-
       - name: Preprocess air data
         run: python src/data/preprocess_air_data.py
 
