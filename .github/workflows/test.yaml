@@ -52,6 +52,7 @@ jobs:
         run: |
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
+
   preprocess_air_data:
 
     needs: fetch_air_data
@@ -84,15 +85,24 @@ jobs:
         run: |
           pip install dvc
           pip install fsspec==2022.7.1
+
       - name: Setup Dagshub
         run: |
           dvc remote modify origin --local auth basic
           dvc remote modify origin --local user ${{ secrets.DAGSHUB_USERNAME }}
           dvc remote modify origin --local password ${{ secrets.DAGSHUB_PASSWORD }}
+
+       - name: Pull data
+        run:    
+          dvc pull
+          
+      - name: Preprocess air data
+        run: python src/data/preprocess_air_data.py
+
       - name: Commit changes
         run: |
-          dvc commit 
-          dvc push -r origin
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
         
         
         
