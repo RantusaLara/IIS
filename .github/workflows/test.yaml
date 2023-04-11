@@ -50,14 +50,18 @@ jobs:
 
       - name: Commit changes
         run: |
-          dvc add data
-          dvc commit --force
-          dvc push -r origin
-          git add data.dvc
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
-          git commit -m "update air_data"
-          git push
+          if [[ $(git status -s data) ]]; then
+            dvc add data
+            dvc commit --force
+            dvc push -r origin
+            git add data.dvc
+            git config --global user.email "you@example.com"
+            git config --global user.name "Your Name"
+            git commit -m "update air_data"
+            git push
+          else
+            echo "No changes in data file"
+          fi
           
   preprocess_air_data:
 
