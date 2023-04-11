@@ -164,10 +164,8 @@ jobs:
 
       - name: Pull data
         run: |
-          dvc remove IIS/src/master/data/raw
           git pull
-          dvc pull
-        #  dvc pull data/raw/weather
+        #  dvc pull
 
       - name: Fetch weather data
         run: python src/data/fetch_weather_data.py
