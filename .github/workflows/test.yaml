@@ -164,9 +164,10 @@ jobs:
 
       - name: Pull data
         run: |
+          dvc remote list
           git pull
-          dvc pull data/raw/weather
-        #  dvc pull
+        #  dvc pull data/raw/weather
+          dvc pull --relink
 
       - name: Fetch weather data
         run: python src/data/fetch_weather_data.py
