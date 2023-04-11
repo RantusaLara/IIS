@@ -165,7 +165,7 @@ jobs:
       - name: Pull data
         run: |
           git pull
-          dvc pull
+        #  dvc pull
 
       - name: Fetch weather data
         run: python src/data/fetch_weather_data.py
