@@ -137,10 +137,7 @@ jobs:
           dvc remote modify origin --local auth basic
           dvc remote modify origin --local user ${{ secrets.DAGSHUB_USERNAME }}
           dvc remote modify origin --local password ${{ secrets.DAGSHUB_PASSWORD }}      
-
-      - name: Pull data
-        run:    
-          dvc pull      
+   
 
       - name: Fetch weather data
         run: python src/data/fetch_weather_data.py
@@ -152,7 +149,7 @@ jobs:
           git add data.dvc
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
-          git commit -m "update preprocess_weather_data"
+          git commit -m "update fetch_weather_data"
           git push
 
   preprocess_weather_data:
