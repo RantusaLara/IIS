@@ -50,8 +50,14 @@ jobs:
 
       - name: Commit changes
         run: |
+          dvc add data
+          dvc commit --force
+          dvc push -r origin
+          git add data.dvc
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
+          git commit -m "update air_data"
+          git push
           
   preprocess_air_data:
 
@@ -94,13 +100,14 @@ jobs:
       - name: Pull data
         run: |
           git pull
-         # dvc pull
+          dvc pull
 
       - name: Preprocess air data
         run: python src/data/preprocess_air_data.py
 
       - name: Commit changes
         run: |
+          dvc add data
           dvc commit --force
           dvc push -r origin
           git add data.dvc
