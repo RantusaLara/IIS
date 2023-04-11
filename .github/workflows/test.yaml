@@ -164,7 +164,7 @@ jobs:
 
       - name: Pull data
         run: |
-          dvc remove data/raw/weather
+          dvc remove IIS/data/raw/weather
           git pull
           dvc pull
         #  dvc pull data/raw/weather
