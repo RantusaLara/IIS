@@ -14,13 +14,13 @@ def get_forecast():
 
     json_object_forecast = json.dumps(data_json_forecast)
 
-    root_dir = os.path.abspath(os.path.join(
-        os.path.dirname(__file__), '../..'))
+    # root_dir = os.path.abspath(os.path.join(
+    #     os.path.dirname(__file__), '../..'))
     
 
-    src = os.path.join(root_dir, 'src', 'data', 'raw', 'forecast')
+    # src = os.path.join(root_dir, 'src', 'data', 'raw', 'forecast') 
 
-    save_file = open(src, "w")  
+    save_file = open("src/data/raw/forecast", "w")  
     json.dump(data_json_forecast, save_file)  
     save_file.close() 
 

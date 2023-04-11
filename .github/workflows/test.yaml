@@ -141,13 +141,22 @@ jobs:
           dvc remote modify origin --local user ${{ secrets.DAGSHUB_USERNAME }}
           dvc remote modify origin --local password ${{ secrets.DAGSHUB_PASSWORD }}
 
+      - name: Pull data
+        run:    
+          dvc pull
+
       - name: fetch weather data
         run: python src/data/fetch_weather_data.py
 
       - name: Commit changes
         run: |
+          dvc commit --force
+          dvc push -r origin
+          git add data.dvc
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
+          git commit -m "update preprocess_weather_data"
+          git push
 
   preprocess_weather_data:
 
@@ -188,13 +197,22 @@ jobs:
           dvc remote modify origin --local user ${{ secrets.DAGSHUB_USERNAME }}
           dvc remote modify origin --local password ${{ secrets.DAGSHUB_PASSWORD }}
 
+      - name: Pull data
+        run:    
+          dvc pull
+
       - name: Preprocess weather data
         run: python src/data/preprocess_weather_data.py
 
       - name: Commit changes
         run: |
+          dvc commit --force
+          dvc push -r origin
+          git add data.dvc
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
+          git commit -m "update preprocess_weather_data"
+          git push
         
         
   merge_processed_data:
@@ -229,15 +247,23 @@ jobs:
         run: |
           pip install dvc
           pip install fsspec==2022.7.1
+
       - name: Setup Dagshub
         run: |
           dvc remote modify origin --local auth basic
           dvc remote modify origin --local user ${{ secrets.DAGSHUB_USERNAME }}
           dvc remote modify origin --local password ${{ secrets.DAGSHUB_PASSWORD }}
+          
+      
+
+      - name: Merge processed data
+        run: python src/data/merge_processed_data.py
+
       - name: Commit changes
         run: |
-          dvc commit 
-          dvc push -r origin
+          git config --global user.email "you@example.com"
+          git config --global user.name "Your Name"
+
   test:
     runs-on: ubuntu-latest
 
