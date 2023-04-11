@@ -172,7 +172,7 @@ jobs:
 
       - name: Commit changes
         run: |
-           if [[ $(git status -s data) ]]; then
+          if [[ $(git status -s data) ]]; then
             dvc add data
             dvc commit --force
             dvc push -r origin
