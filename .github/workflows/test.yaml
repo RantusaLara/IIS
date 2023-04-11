@@ -94,7 +94,7 @@ jobs:
       - name: Pull data
         run: |
           git pull
-          dvc pull
+         # dvc pull
 
       - name: Preprocess air data
         run: python src/data/preprocess_air_data.py
