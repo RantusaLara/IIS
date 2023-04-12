@@ -128,7 +128,7 @@ jobs:
         
   fetch_weather_data:
   
-     runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
     
     outputs:
       sha_new: ${{steps.sha_new.outputs.SHA_NEW}}
@@ -161,7 +161,7 @@ jobs:
         run:    
           dvc pull
 
-      - name: Fetch weather data
+     - name: Fetch weather data
         run: python src/data/fetch_weather_data.py
 
       - name: Commit changes
