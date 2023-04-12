@@ -5,7 +5,7 @@ import sys
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from data.preprocess_air_data import preprocess_air_data
+from data.preprocess_weather_data import preprocess_weather_data
 
 
 def refactor_values(data):
@@ -24,33 +24,14 @@ def process_data(src, dist):
     raw = json.load(f)
     f.close()
 
-    df = pd.DataFrame()
+    df_weather = pd.DataFrame.from_dict(json.loads(json.dumps(raw["hourly"])))
 
-    print('Transforming json to pandas dataframe...')
-    # prilagodimo json dataframe-u
-    #for i in range(len(raw)):
-    #    jdata = json.loads(raw[i]['json'])
-    #    station = jdata['arsopodatki']['postaja']
-    #    for i in range(len(station)):
-    #        data = station[i]
-    #        data = refactor_values(data)
-    #        df = pd.concat([df, pd.json_normalize(data)])
-    for i in range(len(raw)):
-        data = raw[i]
-        dictData = json.loads(data['json'])
-    
-    df1 = pd.json_normalize(dictData['arsopodatki']['postaja'])
-    df = pd.concat([df, df1])#, axis=1, join="inner")
+    df_weather = preprocess_weather_data(df_weather)   
 
-    df = df.reset_index(drop=True)    
+    print('Saving processed weather data...')
+    df_weather.to_csv(dist, index=False)
 
-    df_air = preprocess_air_data(df)
-
-    print('Saving processed air data...')
-    df_air.to_csv(dist, index=False)
-
-    print('Finished air!')
-
+    print('Finished weather!')
 
 
 if __name__ == '__main__':
@@ -60,7 +41,7 @@ if __name__ == '__main__':
     
 
     src = os.path.join(root_dir, 'data', 'raw', 'weather')
-    dist = os.path.join(root_dir, 'data', 'processed', 'processed_air')
+    dist = os.path.join(root_dir, 'data', 'processed', 'processed_weather')
 
     if not os.path.exists(dist):
         os.makedirs(dist)
