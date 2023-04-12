@@ -6,3 +6,4 @@ httpx
 scikit-learn
 flask_cors
 evidently
+great_expectations
