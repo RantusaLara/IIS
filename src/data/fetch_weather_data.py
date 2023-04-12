@@ -41,7 +41,7 @@ if __name__ == '__main__':
     root_dir = os.path.abspath(os.path.join(
         os.path.dirname(__file__), '../..'))
 
-    src = os.path.join(root_dir, 'data', 'raw', 'weather')
+    src = os.path.join(root_dir, 'data', 'raw', 'weather_copy.json')
     dist = os.path.join(root_dir, 'data', 'processed', 'processed_weather')
 
     if not os.path.exists(src):
