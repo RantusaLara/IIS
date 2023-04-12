@@ -128,7 +128,7 @@ jobs:
         
   fetch_weather_data:
   
-    needs: preprocess_air_data
+    
     
     runs-on: ubuntu-latest
     
@@ -165,7 +165,7 @@ jobs:
       - name: Pull data
         run: |
           git pull
-        #  dvc pull
+          dvc pull
 
       - name: Fetch weather data
         run: python src/data/fetch_weather_data.py
@@ -330,7 +330,7 @@ jobs:
       - name: Pull data
         run: |
           git pull
-        # dvc pull
+          dvc pull
 
       - name: Validate data
         run: python src/data/data_validation.py
@@ -398,7 +398,7 @@ jobs:
       - name: Pull data
         run: |
           git pull
-        # dvc pull
+          dvc pull
 
       - name: Test data stability
         run: python src/data/data_stability.py
