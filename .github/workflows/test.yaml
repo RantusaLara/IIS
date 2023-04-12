@@ -128,44 +128,38 @@ jobs:
         
   fetch_weather_data:
   
-    
-    
-    runs-on: ubuntu-latest
+     runs-on: ubuntu-latest
     
     outputs:
       sha_new: ${{steps.sha_new.outputs.SHA_NEW}}
-      
+    
     permissions:
       contents: write
-      
+
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v2
         with:
           fetch-depth: 0
-          
+      - uses: iterative/setup-dvc@v1
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
           python-version: "3.10"
 
       - name: Install dependencies
-        run: pip install -r requirements.txt    
-
-      - name: Install dvc
         run: |
-          pip install dvc
-          pip install fsspec==2022.7.1    
+          pip install -r requirements.txt
 
       - name: Setup Dagshub
         run: |
           dvc remote modify origin --local auth basic
           dvc remote modify origin --local user ${{ secrets.DAGSHUB_USERNAME }}
-          dvc remote modify origin --local password ${{ secrets.DAGSHUB_PASSWORD }}     
+          dvc remote modify origin --local password ${{ secrets.DAGSHUB_PASSWORD }}
 
       - name: Pull data
-        run: |
-          git pull
-        #  dvc pull
+        run:    
+          dvc pull
 
       - name: Fetch weather data
         run: python src/data/fetch_weather_data.py
