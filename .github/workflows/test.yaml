@@ -165,7 +165,7 @@ jobs:
       - name: Pull data
         run: |
           git pull
-          dvc pull
+        #  dvc pull
 
       - name: Fetch weather data
         run: python src/data/fetch_weather_data.py
@@ -361,6 +361,8 @@ jobs:
 
 
   test_stability_data:
+
+    needs: fetch_air_data
   
     runs-on: ubuntu-latest
 
