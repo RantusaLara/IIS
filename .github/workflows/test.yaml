@@ -242,7 +242,6 @@ jobs:
         
   merge_processed_data:
   
-    needs: preprocess_weather_data
     
     runs-on: ubuntu-latest
     
@@ -256,6 +255,8 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - uses: iterative/setup-dvc@v1
           
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -264,9 +265,6 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
-
-      - name: Process data
-        run: python src/data/merge_processed_data.py
 
       - name: Install dvc
         run: |
@@ -277,8 +275,11 @@ jobs:
         run: |
           dvc remote modify origin --local auth basic
           dvc remote modify origin --local user ${{ secrets.DAGSHUB_USERNAME }}
-          dvc remote modify origin --local password ${{ secrets.DAGSHUB_PASSWORD }}
-          
+          dvc remote modify origin --local password ${{ secrets.DAGSHUB_PASSWORD }}     
+
+      - name: Pull data
+        run: 
+          dvc pull     
       
 
       - name: Merge processed data
@@ -286,8 +287,18 @@ jobs:
 
       - name: Commit changes
         run: |
-          git config --global user.email "you@example.com"
-          git config --global user.name "Your Name"
+          if [[ $(git status -s data) ]]; then
+            dvc add data
+            dvc commit --force
+            dvc push -r origin
+            git add data.dvc
+            git config --global user.email "you@example.com"
+            git config --global user.name "Your Name"
+            git commit -m "update merge_processed_data"
+            git push
+          else
+            echo "No changes in data file"
+          fi
 
   validate_data:
   
