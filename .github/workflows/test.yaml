@@ -279,7 +279,8 @@ jobs:
 
       - name: Pull data
         run: 
-          dvc pull     
+          git pull
+        #  dvc pull     
       
 
       - name: Merge processed data
