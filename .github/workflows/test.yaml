@@ -296,13 +296,15 @@ jobs:
             git add data.dvc
             git config --global user.email "you@example.com"
             git config --global user.name "Your Name"
-            git commit -m "update weather_data"
+            git commit -m "update merge_processed_data"
             git push
           else
             echo "No changes in data file"
           fi
 
   validate_data:
+
+    needs: merge_processed_data
   
     runs-on: ubuntu-latest
 
@@ -361,19 +363,11 @@ jobs:
             echo "No changes in data file"
           fi
 
-      - name: Deploy DataDocs to Netlify
-        uses: nwtgck/actions-netlify@v1.2
-        with:
-          publish-dir: "great_expectations/uncommitted/data_docs/local_site"
-          production-deploy: true
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
-
+      
 
   test_stability_data:
 
-    needs: fetch_air_data
+    needs: merge_processed_data
   
     runs-on: ubuntu-latest
 
