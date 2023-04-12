@@ -8,18 +8,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 from data.preprocess_air_data import preprocess_air_data
 
 
-def refactor_values(data):
-    new_data = {}
-    for key, value in data.items():
-        if value != '':
-            new_data[key] = value
-        if isinstance(value, str) and '<' in value:
-            new_value = value.split('<')[1]
-            new_data[key] = int(new_value)
-    return new_data
 
-
-def process_data(src, dist):
+def process_data(src_air, src_weather, dist):
     f = open(src, 'r', encoding='utf-8')
     raw = json.load(f)
     f.close()
@@ -59,17 +49,10 @@ if __name__ == '__main__':
         os.path.dirname(__file__), '../..'))
     
 
-    src = os.path.join(root_dir, 'data', 'raw', 'air')
-    dist = os.path.join(root_dir, 'data', 'processed', 'processed_air')
+    src_air = os.path.join(root_dir, 'data', 'processed', 'data_air.csv')
 
-    if not os.path.exists(dist):
-        os.makedirs(dist)
+    src_weather = os.path.join(root_dir, 'data', 'processed', 'processed_weather.csv')
 
-    # print(root_dir)
-    # print(src)
-    # print(dist)
+    dist_merged = os.path.join(root_dir, 'data', 'processed', 'merged.csv')
 
-    #src = os.path.join(root_dir, 'data', 'raw', 'data.json')
-    #dist = os.path.join(root_dir, 'data', 'processed', 'data.csv')
-
-    process_data(src, dist)
+    process_data(src_air, src_weather, dist_merged)
