@@ -15,37 +15,27 @@ def process_data(src_air, src_weather, dist):
     processed_weather = pd.read_csv(src_weather, sep = ",", decimal = ".")
 
     merged_df = pd.merge(df_air, processed_weather, left_on='datum_od', right_on='time', how='inner')
+    merged_unique_df = merged_df.drop_duplicates()
+    merged_unique_df = merged_unique_df.rename(columns={'datum_od': 'date'})
 
-    f = open(src_air, 'r', encoding='utf-8')
-    raw = json.load(f)
-    f.close()
+    koncni_df = merged_unique_df.drop(['time'], axis=1)
 
-    df = pd.DataFrame()
+    koncni_df['temperature_2m'].fillna(koncni_df['temperature_2m'].mean(), inplace=True)
+    koncni_df['relativehumidity_2m'].fillna(koncni_df['relativehumidity_2m'].mean(), inplace=True)
+    koncni_df['windspeed_10m'].fillna(koncni_df['windspeed_10m'].mean(), inplace=True)
 
-    print('Transforming json to pandas dataframe...')
-    # prilagodimo json dataframe-u
-    #for i in range(len(raw)):
-    #    jdata = json.loads(raw[i]['json'])
-    #    station = jdata['arsopodatki']['postaja']
-    #    for i in range(len(station)):
-    #        data = station[i]
-    #        data = refactor_values(data)
-    #        df = pd.concat([df, pd.json_normalize(data)])
-    for i in range(len(raw)):
-        data = raw[i]
-        dictData = json.loads(data['json'])
-    
-    df1 = pd.json_normalize(dictData['arsopodatki']['postaja'])
-    df = pd.concat([df, df1])#, axis=1, join="inner")
+    stevilski = koncni_df[(["pm10"])]
+    stevilski = stevilski.apply(pd.to_numeric, args=('coerce',))
+    stevilski['pm10'].fillna(stevilski['pm10'].mean(), inplace=True)
 
-    df = df.reset_index(drop=True)    
+    df_drop = koncni_df.drop(columns=stevilski)
+    koncni_df = pd.concat([stevilski, df_drop], axis=1, join="inner")
+   
 
-    df_air = preprocess_air_data(df)
+    print('Saving merged data...')
+    koncni_df.to_csv(dist, index=False)
 
-    print('Saving processed air data...')
-    df_air.to_csv(dist, index=False)
-
-    print('Finished air!')
+    print('Finished merged!')   
 
 
 

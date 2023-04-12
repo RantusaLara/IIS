@@ -10,6 +10,9 @@ on:
 
 jobs:
   fetch_air_data:
+
+    needs: test
+
     runs-on: ubuntu-latest
     
     outputs:
@@ -127,6 +130,9 @@ jobs:
         
         
   fetch_weather_data:
+
+    needs: preprocess_air_data
+
     runs-on: ubuntu-latest
     
     outputs:
@@ -241,6 +247,8 @@ jobs:
         
         
   merge_processed_data:
+
+
     runs-on: ubuntu-latest
     
     outputs:
