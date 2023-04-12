@@ -127,7 +127,6 @@ jobs:
         
         
   fetch_weather_data:
-  
     runs-on: ubuntu-latest
     
     outputs:
@@ -150,6 +149,8 @@ jobs:
       - name: Install dependencies
         run: |
           pip install -r requirements.txt
+      - name: list everything
+        run: ls -alh
 
       - name: Setup Dagshub
         run: |
@@ -161,7 +162,7 @@ jobs:
         run:    
           dvc pull
 
-     - name: Fetch weather data
+      - name: Fetch weather data
         run: python src/data/fetch_weather_data.py
 
       - name: Commit changes
@@ -173,7 +174,7 @@ jobs:
             git add data.dvc
             git config --global user.email "you@example.com"
             git config --global user.name "Your Name"
-            git commit -m "update fetch_weather_data"
+            git commit -m "update weather_data"
             git push
           else
             echo "No changes in data file"
