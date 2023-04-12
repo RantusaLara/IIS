@@ -59,7 +59,7 @@ if __name__ == '__main__':
         os.path.dirname(__file__), '../..'))
     
 
-    src = os.path.join(root_dir, 'data', 'raw', 'air')
+    src = os.path.join(root_dir, 'data', 'raw', 'weather')
     dist = os.path.join(root_dir, 'data', 'processed', 'processed_air')
 
     if not os.path.exists(dist):
