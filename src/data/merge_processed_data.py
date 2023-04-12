@@ -10,7 +10,13 @@ from data.preprocess_air_data import preprocess_air_data
 
 
 def process_data(src_air, src_weather, dist):
-    f = open(src, 'r', encoding='utf-8')
+
+    df_air = pd.read_csv(src_air, sep = ",", decimal = ".")
+    processed_weather = pd.read_csv(src_weather, sep = ",", decimal = ".")
+
+    merged_df = pd.merge(df_air, processed_weather, left_on='datum_od', right_on='time', how='inner')
+
+    f = open(src_air, 'r', encoding='utf-8')
     raw = json.load(f)
     f.close()
 
