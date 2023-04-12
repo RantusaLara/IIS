@@ -1,36 +1,55 @@
 import pandas as pd
 import json
 import os
+import sys
+
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+
+from data.preprocess_air_data import preprocess_air_data
 
 
+def refactor_values(data):
+    new_data = {}
+    for key, value in data.items():
+        if value != '':
+            new_data[key] = value
+        if isinstance(value, str) and '<' in value:
+            new_value = value.split('<')[1]
+            new_data[key] = int(new_value)
+    return new_data
 
-def process_data(src_air, src_weather, dist):
 
-    df_air = pd.read_csv(src_air, sep = ",", decimal = ".")
-    processed_weather = pd.read_csv(src_weather, sep = ",", decimal = ".")
+def process_data(src, dist):
+    f = open(src, 'r', encoding='utf-8')
+    raw = json.load(f)
+    f.close()
 
-    merged_df = pd.merge(df_air, processed_weather, left_on='datum_od', right_on='time', how='inner')
-    merged_unique_df = merged_df.drop_duplicates()
-    merged_unique_df = merged_unique_df.rename(columns={'datum_od': 'date'})
+    df = pd.DataFrame()
 
-    koncni_df = merged_unique_df.drop(['time'], axis=1)
+    print('Transforming json to pandas dataframe...')
+    # prilagodimo json dataframe-u
+    #for i in range(len(raw)):
+    #    jdata = json.loads(raw[i]['json'])
+    #    station = jdata['arsopodatki']['postaja']
+    #    for i in range(len(station)):
+    #        data = station[i]
+    #        data = refactor_values(data)
+    #        df = pd.concat([df, pd.json_normalize(data)])
+    for i in range(len(raw)):
+        data = raw[i]
+        dictData = json.loads(data['json'])
+    
+    df1 = pd.json_normalize(dictData['arsopodatki']['postaja'])
+    df = pd.concat([df, df1])#, axis=1, join="inner")
 
-    koncni_df['temperature_2m'].fillna(koncni_df['temperature_2m'].mean(), inplace=True)
-    koncni_df['relativehumidity_2m'].fillna(koncni_df['relativehumidity_2m'].mean(), inplace=True)
-    koncni_df['windspeed_10m'].fillna(koncni_df['windspeed_10m'].mean(), inplace=True)
+    df = df.reset_index(drop=True)    
 
-    stevilski = koncni_df[(["pm10"])]
-    stevilski = stevilski.apply(pd.to_numeric, args=('coerce',))
-    stevilski['pm10'].fillna(stevilski['pm10'].mean(), inplace=True)
+    df_air = preprocess_air_data(df)
 
-    df_drop = koncni_df.drop(columns=stevilski)
-    koncni_df = pd.concat([stevilski, df_drop], axis=1, join="inner")
-   
+    print('Saving processed air data...')
+    df_air.to_csv(dist, index=False)
 
-    print('Saving merged data...')
-    koncni_df.to_csv(dist, index=False)
-
-    print('Finished merged!')
+    print('Finished air!')
 
 
 
@@ -38,11 +57,19 @@ if __name__ == '__main__':
 
     root_dir = os.path.abspath(os.path.join(
         os.path.dirname(__file__), '../..'))
+    
 
-    src_air = os.path.join(root_dir, 'data', 'processed', 'data_air.csv')
+    src = os.path.join(root_dir, 'data', 'raw', 'air')
+    dist = os.path.join(root_dir, 'data', 'processed', 'processed_air')
 
-    src_weather = os.path.join(root_dir, 'data', 'processed', 'processed_weather.csv')
+    if not os.path.exists(dist):
+        os.makedirs(dist)
 
-    dist_merged = os.path.join(root_dir, 'data', 'processed', 'merged.csv')
+    # print(root_dir)
+    # print(src)
+    # print(dist)
 
-    process_data(src_air, src_weather, dist_merged)
+    #src = os.path.join(root_dir, 'data', 'raw', 'data.json')
+    #dist = os.path.join(root_dir, 'data', 'processed', 'data.csv')
+
+    process_data(src, dist)
