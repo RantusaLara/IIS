@@ -26,7 +26,7 @@ validations:
       data_asset_name: current_data.csv
       data_connector_query:
         index: -1
-    expectation_suite_name: new_ge
+    expectation_suite_name: IIS_suite
 profilers: []
 ge_cloud_id:
 expectation_suite_ge_cloud_id:

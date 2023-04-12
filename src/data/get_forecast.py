@@ -20,7 +20,7 @@ def get_forecast():
 
     # src = os.path.join(root_dir, 'src', 'data', 'raw', 'forecast') 
 
-    save_file = open("src/data/raw/forecast", "w")  
+    save_file = open("data/raw/forecast", "w")  
     json.dump(data_json_forecast, save_file)  
     save_file.close() 
 

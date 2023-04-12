@@ -291,6 +291,133 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "Your Name"
 
+  validate_data:
+  
+    runs-on: ubuntu-latest
+
+    outputs:
+      sha_new: ${{steps.sha_new.outputs.SHA_NEW}}
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+
+      - uses: iterative/setup-dvc@v1
+
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      - name: Install dvc
+        run: |
+          pip install dvc
+
+      - name: Setup Dagshub
+        run: |
+          dvc remote modify origin --local auth basic
+          dvc remote modify origin --local user ${{ secrets.DAGSHUB_USERNAME }}
+          dvc remote modify origin --local password ${{ secrets.DAGSHUB_TOKEN }}
+
+      - name: Pull data
+        run: |
+          git pull
+        # dvc pull
+
+      - name: Validate data
+        run: python src/data/data_validation.py
+
+      - name: Commit changes
+        run: |
+          if [[ $(git status -s data) ]]; then
+            dvc add data
+            dvc commit --force
+            dvc push -r origin
+            git add data.dvc
+            git config --global user.email "you@example.com"
+            git config --global user.name "Your Name"
+            git commit -m "update data_validation"
+            git push
+          else
+            echo "No changes in data file"
+          fi
+
+      - name: Deploy DataDocs to Netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: "great_expectations/uncommitted/data_docs/local_site"
+          production-deploy: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+
+  test_stability_data:
+  
+    runs-on: ubuntu-latest
+
+    outputs:
+      sha_new: ${{steps.sha_new.outputs.SHA_NEW}}
+
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.10"
+          
+      - uses: iterative/setup-dvc@v1
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install dvc
+        run: |
+          pip install dvc
+
+      - name: Setup Dagshub
+        run: |
+          dvc remote modify origin --local auth basic
+          dvc remote modify origin --local user ${{ secrets.DAGSHUB_USERNAME }}
+          dvc remote modify origin --local password ${{ secrets.DAGSHUB_TOKEN }}
+
+      - name: Pull data
+        run: |
+          git pull
+        # dvc pull
+
+      - name: Test data stability
+        run: python src/data/data_stability.py
+        
+      - name: Commit changes
+        run: |
+          if [[ $(git status -s data) ]]; then
+            dvc add data
+            dvc commit --force
+            dvc push -r origin
+            git add data.dvc
+            git config --global user.email "you@example.com"
+            git config --global user.name "Your Name"
+            git commit -m "update data_stability"
+            git push
+          else
+            echo "No changes in data file"
+          fi
+
   test:
     runs-on: ubuntu-latest
 
